@@ -6,6 +6,7 @@ Run mcuexpresso in a docker container with X11 forwarding
 - Set the IDE_VERSION variable in the docker-compose.yml file to match the bin
 - Set the UID and the GID to the *currently logged in user*
 - run `docker-compose build`
+- run `xhost +`
 - run `docker-compose up`
 
 mcuxpresso should start automatically.

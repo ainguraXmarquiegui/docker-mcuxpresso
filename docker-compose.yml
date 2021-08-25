@@ -5,7 +5,7 @@ services:
       context: ./
       args:
        # Customize your IDE version here
-       IDE_VERSION: 11.3.1_5262
+       IDE_VERSION: 11.4.0_6237
        USERNAME: root
        UID: 0
        GID: 0
@@ -13,9 +13,10 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - DISPLAY=unix:1
+      - DISPLAY=unix:0
     volumes:
-      - ./:/mnt
+      - ./mnt:/mnt
+      - ./root:/root
       # dbus
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /etc/machine-id:/var/lib/dbus/machine-id
