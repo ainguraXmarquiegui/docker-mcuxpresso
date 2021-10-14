@@ -15,7 +15,6 @@ services:
     environment:
       - DISPLAY=unix:0
     volumes:
-      - ./mnt:/mnt
       - ./root:/root
       # dbus
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

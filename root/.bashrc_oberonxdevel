@@ -1,0 +1,6 @@
+# Add and uncomment the following lines to ~/.bashrc (do not uncomment the first line)
+# My own .bashrc commands
+#if [ -f ~/.bashrc_oberonxdevel ]; then
+#    . ~/.bashrc_oberonxdevel
+#fi
+

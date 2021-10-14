@@ -27,6 +27,10 @@ RUN set -e; \
   PackageKit-gtk3-module \
   webkit2gtk3 \
   wget \
+  cmake \
+  make \
+  unzip \
+  patch \
   which; \
   wget http://rpmfind.net/linux/fedora/linux/releases/33/Everything/x86_64/os/Packages/d/dfu-util-0.9-10.fc33.x86_64.rpm -O /tmp/dfu.rpm; \
   dnf install -y /tmp/dfu.rpm; \
