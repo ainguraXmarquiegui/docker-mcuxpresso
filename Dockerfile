@@ -1,5 +1,5 @@
-FROM centos:8
-LABEL maintainer="Adam Duskett <aduskett@gmail.com>" \
+FROM ubuntu:18.04
+LABEL maintainer="reibax <reibax@gmail.com>" \
 description="Everything needed to run MCUExpresso in a docker container with X11 forwarding."
 
 ARG IDE_VERSION
@@ -9,37 +9,36 @@ ARG GID
 
 COPY ./mcuxpressoide-${IDE_VERSION}.x86_64.deb.bin /tmp
 
-
-RUN set -e; \
-  dnf update -y; \
-  dnf install -y epel-release; \
-  dnf install -y dnf-plugins-core; \
-  dnf config-manager --set-enabled powertools; \
-  dnf install -y \
-  diffutils \
-  dpkg \
-  git \
-  java-11-openjdk \
-  libcanberra \
-  libcanberra-gtk3 \
-  libusb-devel \
-  ncurses-compat-libs \
-  PackageKit-gtk3-module \
-  webkit2gtk3 \
-  wget \
-  cmake \
-  make \
-  unzip \
-  patch \
-  which; \
-  wget http://rpmfind.net/linux/fedora/linux/releases/33/Everything/x86_64/os/Packages/d/dfu-util-0.9-10.fc33.x86_64.rpm -O /tmp/dfu.rpm; \
-  dnf install -y /tmp/dfu.rpm; \
-  rm -f /tmp/dfcu.rpm; \
-  usermod -aG wheel ${USERNAME}; \
-  mkdir -p /home/${USERNAME} ; \
-  echo "alias ls='ls --color=auto'" >> /home/${USERNAME}/.bashrc; \
-  echo "PS1='\u@\H [\w]$ '" >> /home/${USERNAME}/.bashrc; \
-  chown -R ${USERNAME}:${USERNAME} /home/${USERNAME};
+RUN apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get -y install \
+        passwd \
+        diffutils \
+        git \
+        openjdk-11-jre \
+        openjdk-11-jdk \
+        libcanberra0 \
+        libcanberra-gtk0 \
+        libcanberra-gtk3-0 \
+        libusb-dev \
+        libusb-1.0-0-dev \
+        ncurses-base \
+        libncurses5 \
+        packagekit-gtk3-module \
+        webkit2gtk-driver \
+        wget \
+        cmake \
+        make \
+        unzip \
+        patch \
+        build-essential \
+        dfu-util \
+        dfu-programmer && \
+    groupadd wheel && \
+    usermod -aG wheel ${USERNAME} && \
+    mkdir -p /home/${USERNAME} && \
+    echo "alias ls='ls --color=auto'" >> /home/${USERNAME}/.bashrc && \
+    echo "PS1='\u@\H [\w]$ '" >> /home/${USERNAME}/.bashrc && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 RUN set -e; \
   cd /tmp/; \
