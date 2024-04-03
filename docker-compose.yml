@@ -5,7 +5,7 @@ services:
       context: ./
       args:
        # Customize your IDE version here
-       IDE_VERSION: 11.4.0_6237
+       IDE_VERSION: 11.8.1_1197
        USERNAME: root
        UID: 0
        GID: 0

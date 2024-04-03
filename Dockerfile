@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM debian:bookworm
 LABEL maintainer="reibax <reibax@gmail.com>" \
 description="Everything needed to run MCUExpresso in a docker container with X11 forwarding."
 
@@ -14,13 +14,17 @@ RUN apt-get update && \
         passwd \
         diffutils \
         git \
-        openjdk-11-jre \
-        openjdk-11-jdk \
+        openjdk-17-jre \
+        openjdk-17-jdk \
         libcanberra0 \
         libcanberra-gtk0 \
         libcanberra-gtk3-0 \
         libusb-dev \
         libusb-1.0-0-dev \
+	libxcb-icccm4 \
+	libxcb-image0 \
+	libxcb-keysyms1 \
+	libxcb-render-util0 \
         ncurses-base \
         libncurses5 \
         packagekit-gtk3-module \
@@ -46,7 +50,9 @@ RUN set -e; \
   chmod a+x ./mcuxpressoide-${IDE_VERSION}.x86_64.deb.bin; \
   ./mcuxpressoide-${IDE_VERSION}.x86_64.deb.bin --noexec --target /tmp/mcu; \
   cd /tmp/mcu; \
-  dpkg --force-depends -i ./JLink_Linux_x86_64.deb; \
+  dpkg --unpack ./JLink_Linux_x86_64.deb; \
+  rm -f /var/lib/dpkg/info/jlink.postinst; \
+  dpkg --force-depends --configure jlink; \
   dpkg --unpack mcuxpressoide-${IDE_VERSION}.x86_64.deb; \
   rm -f /var/lib/dpkg/info/mcuxpressoide.postinst; \
   dpkg --force-depends --configure mcuxpressoide; \
