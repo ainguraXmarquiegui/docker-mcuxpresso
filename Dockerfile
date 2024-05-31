@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM ubuntu:focal
 LABEL maintainer="reibax <reibax@gmail.com>" \
 description="Everything needed to run MCUExpresso in a docker container with X11 forwarding."
 
@@ -27,6 +27,7 @@ RUN apt-get update && \
 	libxcb-render-util0 \
         ncurses-base \
         libncurses5 \
+	libncursesw5 \
         packagekit-gtk3-module \
         webkit2gtk-driver \
         wget \
@@ -35,8 +36,13 @@ RUN apt-get update && \
         unzip \
         patch \
         build-essential \
+	python3-pip \
         dfu-util \
         dfu-programmer && \
+    pip3 install \
+        cryptography \
+	intelhex \
+	paramiko && \
     groupadd wheel && \
     usermod -aG wheel ${USERNAME} && \
     mkdir -p /home/${USERNAME} && \
@@ -61,7 +67,8 @@ RUN set -e; \
   ln -s /usr/local/mcuxpressoide-${IDE_VERSION} /usr/local/mcuxpressoide; \
   ln -sf /usr/local/mcuxpressoide-${IDE_VERSION}/ide/mcuxpressoide /usr/bin/mcuxpressoide; \
   rm -rf /tmp/mcuxpressoide-${IDE_VERSION}.x86_64.deb.bin; \
-  rm -rf /tmp/mcu;
+  rm -rf /tmp/mcu; \
+  apt --fix-broken install;
 
 USER ${USERNAME}
 CMD ["/usr/bin/mcuxpressoide"]
